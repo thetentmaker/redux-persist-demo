@@ -3,8 +3,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
 import { counterSlice } from './counterSlice';
 
-// 느린 네트워크 시뮬레이션을 위한 Storage Wrapper
-const createSlowStorage = (delay: number = 2000) => ({
+// 느린 네트워크 시뮬레이션을 위한 Storage Wrapp
+type StorageLike = {
+  getItem: (key: string) => Promise<string | null>;
+  setItem: (key: string, value: string) => Promise<void>;
+  removeItem: (key: string) => Promise<void>;
+};
+
+const createSlowStorage = (delay: number = 2000): StorageLike => ({
   getItem: async (key: string) => {
     console.log(`[SlowStorage] Reading ${key}... (${delay}ms delay)`);
     await new Promise(resolve => setTimeout(resolve, delay));
