@@ -1,50 +1,82 @@
-# Welcome to your Expo app 👋
+# Redux & Redux Persist Demo 📱
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+> React Native, Redux 및 Redux Persist 학습
+- Expo + Redux Toolkit + Redux Persist
 
-## Get started
+## 🎯 프로젝트 목적
 
-1. Install dependencies
+- **Redux Toolkit**의 현대적 사용법 학습
+- **Redux Persist**를 통한 상태 영속화 구현
+- **PersistGate**의 역할과 중요성 이해
+- React Native에서의 상태 관리 베스트 프랙티스 탐구
 
-   ```bash
-   npm install
-   ```
+## 📖 학습 포인트
 
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+### 1. Redux Toolkit 기본 구조
+```
+src/store/
+├── store.ts          # Store 설정 및 미들웨어
+└── counterSlice.ts   # createSlice를 이용한 슬라이스
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 2. 주요 개념들
 
-## Learn more
+#### createSlice vs 기존 Redux
+- **기존 방식**: Action Types → Action Creators → Reducer
+- **createSlice**: 한 번에 모든 것을 정의 (Immer 내장으로 불변성 자동 관리)
 
-To learn more about developing your project with Expo, look at the following resources:
+#### Redux Persist 핵심
+- **persistReducer**: 리듀서를 감싸서 저장/복원 기능 추가
+- **PersistGate**: 상태 복원 완료까지 UI 렌더링 대기
+- **AsyncStorage**: React Native에서 데이터 영속화
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### 3. PersistGate의 중요성
 
-## Join the community
+#### PersistGate 있을 때
+```typescript
+<PersistGate loading={<LoadingComponent />} persistor={persistor}>
+  <App />
+</PersistGate>
+```
+- 상태 복원 완료 → UI 렌더링 (일관된 상태)
 
-Join our community of developers creating universal apps.
+#### PersistGate 없을 때
+- 초기값으로 UI 렌더링 → 복원된 값으로 변경
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## 🔧 코드 하이라이트
+
+### 1. Modern Redux Pattern (counterSlice.ts)
+```typescript
+export const counterSlice = createSlice({
+  name: 'counter',
+  initialState: { value: 0 },
+  reducers: {
+    increment: (state) => {
+      state.value += 1; // Immer가 불변성 처리
+    },
+    decrement: (state) => {
+      state.value -= 1;
+    }
+  }
+});
+```
+
+### 2. 이벤트 중심 네이밍 (UI와 로직 분리)
+```typescript
+// ✅ UI 이벤트 기반
+const { onPressPlus, onPressMinus } = useReduxPersistDemo();
+
+// ❌ 비즈니스 로직 기반  
+const { handleIncrement, handleDecrement } = useReduxPersistDemo();
+```
+
+### 3. 느린 네트워크 시뮬레이션
+```typescript
+const createSlowStorage = (delay: number = 2000) => ({
+  getItem: async (key: string) => {
+    await new Promise(resolve => setTimeout(resolve, delay));
+    return AsyncStorage.getItem(key);
+  }
+});
+```
+---

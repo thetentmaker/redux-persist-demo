@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { decrement, increment } from '../store/counterSlice';
-import { AppDispatch, RootState } from '../store/store';
+import { decrement, increment } from '../../src/store/counterSlice';
+import { AppDispatch, RootState } from '../../src/store/store';
 
 export const useReduxPersistDemo = () => {
   const dispatch = useDispatch<AppDispatch>();
