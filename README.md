@@ -1,6 +1,6 @@
-|이미지|영상|
-|-|-|
-|<img src="./images/redux-persist-1.png" width=300 /> |[]("./images/redux-persist-1.mp4")|
+|화면|
+|-|
+|<img src="./images/redux-persist-1.png" width=300 /> |
 
 
 
