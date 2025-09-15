@@ -1,3 +1,9 @@
+|이미지|영상|
+|-|-|
+|<img src="./images/redux-persist-1.png" width=30% /> |<video src=".images/redux-persist-1.mov" controls width="500" />|
+
+
+
 # Redux & Redux Persist Demo 📱
 
 > React Native, Redux 및 Redux Persist 학습
