@@ -29,7 +29,7 @@ src/store/
 
 #### createSlice vs 기존 Redux
 - **기존 방식**: Action Types → Action Creators → Reducer
-- **createSlice**: 한 번에 모든 것을 정의 (Immer 내장으로 불변성 자동 관리)
+- **createSlice**: 한 번에 모든 것을 정의
 
 #### Redux Persist 핵심
 - **persistReducer**: 리듀서를 감싸서 저장/복원 기능 추가
@@ -58,7 +58,7 @@ export const counterSlice = createSlice({
   initialState: { value: 0 },
   reducers: {
     increment: (state) => {
-      state.value += 1; // Immer가 불변성 처리
+      state.value += 1;
     },
     decrement: (state) => {
       state.value -= 1;
